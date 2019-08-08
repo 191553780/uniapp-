@@ -105,7 +105,8 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniBadge = function uniBadge() {return __webpack_require__.e(/*! import() | components/uni-badge/uni-badge */ "components/uni-badge/uni-badge").then(__webpack_require__.bind(null, /*! @/components/uni-badge/uni-badge.vue */ 123));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var notesList = function notesList() {return __webpack_require__.e(/*! import() | components/notes/notes-list */ "components/notes/notes-list").then(__webpack_require__.bind(null, /*! @/components/notes/notes-list.vue */ 146));};var loadMore = function loadMore() {return __webpack_require__.e(/*! import() | components/common/load-more */ "components/common/load-more").then(__webpack_require__.bind(null, /*! @/components/common/load-more.vue */ 104));};var notesPopup = function notesPopup() {return __webpack_require__.e(/*! import() | components/notes/notes-popup */ "components/notes/notes-popup").then(__webpack_require__.bind(null, /*! @/components/notes/notes-popup.vue */ 153));};var _default =
+
 
 
 
@@ -129,14 +130,167 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 {
   data: function data() {
-    return {};
+    return {
+      isShow: false,
+      loadText: "上拉加载更多...",
+      list: [
+      {
+        userPic: '../../static/demo/userpic/20.jpg',
+        userName: '昵称',
+        time: '10:21',
+        data: '我是信息',
+        noreadNum: 1 },
+
+      {
+        userPic: '../../static/demo/userpic/20.jpg',
+        userName: '昵称',
+        time: '10:21',
+        data: '我是信息',
+        noreadNum: 3 },
+
+      {
+        userPic: '../../static/demo/userpic/20.jpg',
+        userName: '昵称',
+        time: '10:21',
+        data: '我是信息',
+        noreadNum: 0 },
+
+      {
+        userPic: '../../static/demo/userpic/20.jpg',
+        userName: '昵称',
+        time: '10:21',
+        data: '我是信息',
+        noreadNum: 1 },
+
+      {
+        userPic: '../../static/demo/userpic/20.jpg',
+        userName: '昵称',
+        time: '10:21',
+        data: '我是信息',
+        noreadNum: 3 },
+
+      {
+        userPic: '../../static/demo/userpic/20.jpg',
+        userName: '昵称',
+        time: '10:21',
+        data: '我是信息',
+        noreadNum: 0 },
+
+      {
+        userPic: '../../static/demo/userpic/20.jpg',
+        userName: '昵称',
+        time: '10:21',
+        data: '我是信息',
+        noreadNum: 1 },
+
+      {
+        userPic: '../../static/demo/userpic/20.jpg',
+        userName: '昵称',
+        time: '10:21',
+        data: '我是信息',
+        noreadNum: 3 },
+
+      {
+        userPic: '../../static/demo/userpic/20.jpg',
+        userName: '昵称',
+        time: '10:21',
+        data: '我是信息',
+        noreadNum: 0 }] };
+
 
 
   },
   components: {
-    uniBadge: uniBadge },
+    notesList: notesList,
+    loadMore: loadMore,
+    notesPopup: notesPopup },
 
-  methods: {} };exports.default = _default;
+  //  监听下拉刷新
+  onPullDownRefresh: function onPullDownRefresh() {
+    this.getData();
+  },
+  onReachBottom: function onReachBottom() {
+    this.loadMore();
+  },
+  // 监听导航事件
+  onNavigationBarButtonTap: function onNavigationBarButtonTap(e) {
+    // console.log(e.index);
+    if (e.index == 0) {
+      this.isShow = false;
+      uni.navigateTo({
+        url: '../user-list/user-list' });
+
+    }
+    if (e.index == 1) {
+      this.hidePopup();
+    }
+  },
+  methods: {
+    // 获取数据
+    getData: function getData() {var _this = this;
+      // 获取数据
+      setTimeout(function () {
+        var arr = [
+        {
+          userPic: '../../static/demo/userpic/20.jpg',
+          userName: '哈哈哈',
+          time: '10:21',
+          data: '我是信息',
+          noreadNum: 3 },
+
+        {
+          userPic: '../../static/demo/userpic/20.jpg',
+          userName: '啦啦啦',
+          time: '10:21',
+          data: '我是信息',
+          noreadNum: 0 },
+
+        {
+          userPic: '../../static/demo/userpic/20.jpg',
+          userName: '萌萌萌',
+          time: '10:21',
+          data: '我是信息',
+          noreadNum: 11 }];
+
+
+        // 赋值
+        _this.list = arr;
+        // 关闭下拉刷新
+        uni.stopPullDownRefresh();
+      }, 2000);
+    },
+    // 上拉加载
+    loadMore: function loadMore() {var _this2 = this;
+      if (this.loadText != '上拉加载更多...') return;
+      // 修改状态
+      this.loadText = '加载中...';
+      // 获取数据
+      setTimeout(function () {
+        // 获取完成
+        var obj = {
+          userPic: '../../static/demo/userpic/20.jpg',
+          userName: '昵称',
+          time: '10:21',
+          data: '我是信息',
+          noreadNum: 1 };
+
+        _this2.list.push(obj);
+        _this2.loadText = '上拉加载更多...';
+      }, 1000);
+      // this.loadText = '我是有底线的'
+    },
+    addFriend: function addFriend() {
+      console.log('添加');
+      this.hidePopup();
+    },
+    clear: function clear() {
+      console.log('清除');
+      this.hidePopup();
+    },
+    hidePopup: function hidePopup() {
+      this.isShow = !this.isShow;
+    } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

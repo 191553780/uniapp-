@@ -46,9 +46,9 @@
   padding: 0 20rpx 20rpx;
 }
 .carousel .car-swiper image.data-v-35015a7e {
+    border-radius: 10rpx;
     width: 100%;
     height: 100%;
-    border-radius: 10rpx;
 }
 .last-update.data-v-35015a7e {
   padding: 20rpx;

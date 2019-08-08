@@ -10,3 +10,12 @@
 .flex-JustCenter {
 	justify-content: center;
 }
+.flex-1{
+	flex: 1
+}
+.flex-column {
+	flex-direction: column;
+}
+.uni-scroll-view div{
+	height: 100%;
+}

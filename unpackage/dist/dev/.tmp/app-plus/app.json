@@ -9,7 +9,8 @@
     "pages/hot-nav/hot-nav",
     "pages/talk-detail/talk-detail",
     "pages/user-list/user-list",
-    "pages/user-chat/user-chat"
+    "pages/user-chat/user-chat",
+    "pages/detail/detail"
   ],
   "window": {
     "navigationBarTextStyle": "black",

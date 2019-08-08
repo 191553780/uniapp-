@@ -1,6 +1,9 @@
 {
+  "enablePullDownRefresh": true,
   "navigationBarTitleText": "小纸条",
   "usingComponents": {
-    "uni-badge": "/components/uni-badge/uni-badge"
+    "notes-list": "/components/notes/notes-list",
+    "load-more": "/components/common/load-more",
+    "notes-popup": "/components/notes/notes-popup"
   }
 }

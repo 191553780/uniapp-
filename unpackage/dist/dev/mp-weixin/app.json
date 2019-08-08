@@ -7,7 +7,10 @@
     "pages/search/search",
     "pages/add-input/add-input",
     "pages/hot-nav/hot-nav",
-    "pages/talk-detail/talk-detail"
+    "pages/talk-detail/talk-detail",
+    "pages/user-list/user-list",
+    "pages/user-chat/user-chat",
+    "pages/detail/detail"
   ],
   "subPackages": [],
   "window": {
@@ -49,5 +52,5 @@
     ]
   },
   "usingComponents": {},
-  "sitemapLocation": "sitemap60.json"
+  "sitemapLocation": "sitemap9.json"
 }

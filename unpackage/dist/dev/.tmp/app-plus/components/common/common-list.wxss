@@ -57,21 +57,21 @@
       font-size: 32rpx;
       padding: 12rpx 0;
 }
-.common-list .common-list-right > view.data-v-0412f28f:nth-of-type(3) {
+.common-list .common-list-right .common-content.data-v-0412f28f {
       position: relative;
 }
-.common-list .common-list-right > view:nth-of-type(3) > image.data-v-0412f28f {
+.common-list .common-list-right .common-content > image.data-v-0412f28f {
         width: 100%;
         border-radius: 10rpx;
 }
-.common-list .common-list-right > view:nth-of-type(3) .commit-list-play.data-v-0412f28f, .common-list .common-list-right > view:nth-of-type(3) .commit-list-playInfo.data-v-0412f28f {
+.common-list .common-list-right .common-content .commit-list-play.data-v-0412f28f, .common-list .common-list-right .common-content .commit-list-playInfo.data-v-0412f28f {
         position: absolute;
         color: #fff;
 }
-.common-list .common-list-right > view:nth-of-type(3) .commit-list-play.data-v-0412f28f {
+.common-list .common-list-right .common-content .commit-list-play.data-v-0412f28f {
         font-size: 100rpx;
 }
-.common-list .common-list-right > view:nth-of-type(3) .commit-list-playInfo.data-v-0412f28f {
+.common-list .common-list-right .common-content .commit-list-playInfo.data-v-0412f28f {
         font-size: 10rpx;
         bottom: 10rpx;
         right: 10rpx;
@@ -80,13 +80,13 @@
         padding: 0 20rpx;
         font-size: 26rpx;
 }
-.common-list .common-list-right > view:nth-of-type(3) .common-list-share.data-v-0412f28f {
+.common-list .common-list-right .common-content .common-list-share.data-v-0412f28f {
         background: #eee;
         width: 100%;
         padding: 10rpx;
         border-radius: 10rpx;
 }
-.common-list .common-list-right > view:nth-of-type(3) .common-list-share > image.data-v-0412f28f {
+.common-list .common-list-right .common-content .common-list-share > image.data-v-0412f28f {
           width: 200rpx;
           height: 150rpx;
           margin-right: 10rpx;

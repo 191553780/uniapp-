@@ -103,17 +103,32 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var indexList = function indexList() {return __webpack_require__.e(/*! import() | components/index/index-list */ "components/index/index-list").then(__webpack_require__.bind(null, /*! @/components/index/index-list.vue */ 90));};var noThing = function noThing() {return __webpack_require__.e(/*! import() | components/common/no-thing */ "components/common/no-thing").then(__webpack_require__.bind(null, /*! @/components/common/no-thing.vue */ 111));};var loadMore = function loadMore() {return __webpack_require__.e(/*! import() | components/common/load-more */ "components/common/load-more").then(__webpack_require__.bind(null, /*! @/components/common/load-more.vue */ 104));};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   data: function data() {
-    return {};
-
+    return {
+      isSearch: false,
+      searchText: '',
+      loadText: "上拉加载更多...",
+      list: [] };
 
   },
   // 监听原生标题导航按钮点击事件
@@ -127,13 +142,104 @@ var _default =
   },
   // 监听搜索框文本变化
   onNavigationBarSearchInputChanged: function onNavigationBarSearchInputChanged(e) {
-    console.log('文本', JSON.stringify(e));
+    // console.log('文本',JSON.stringify(e));
+    this.searchText = e.text;
   },
   // 监听键盘点击搜索按钮事件
   onNavigationBarSearchInputConfirmed: function onNavigationBarSearchInputConfirmed(e) {
-    console.log('键盘', JSON.stringify(e));
+    // console.log('键盘',JSON.stringify(e));
+    this.searchText = e.text;
+    if (e.text) {
+      this.getData();
+    }
   },
-  methods: {} };exports.default = _default;
+  // 监听页面触底事件
+  onReachBottom: function onReachBottom() {
+    this.loadMore();
+  },
+  // 监听下拉刷新
+  onPullDownRefresh: function onPullDownRefresh() {
+    this.getData();
+    uni.stopPullDownRefresh();
+  },
+  components: {
+    indexList: indexList,
+    noThing: noThing,
+    loadMore: loadMore },
+
+  methods: {
+    //  上拉加载
+    loadMore: function loadMore() {var _this = this;
+      if (this.loadText != '上拉加载更多...') return;
+      // 修改状态
+      this.loadText = '加载中...';
+      // 获取数据
+      setTimeout(function () {
+        // 获取完成
+        var obj = {
+          userPic: '../../static/demo/userpic/12.jpg',
+          userName: '啦啦',
+          isFollow: false,
+          title: '我是标题',
+          type: 'img', // 图片img 视频video
+          titlePic: '../../static/demo/datapic/11.jpg',
+          infoNum: {
+            isOption: 2, // 0 没有操作 1 赞 2 踩
+            smileNum: 11,
+            cryNum: 2 },
+
+          commentNum: 20,
+          shareNum: 8 };
+
+        _this.list.push(obj);
+        _this.loadText = '上拉加载更多...';
+      }, 1000);
+      // this.loadText = '我是有底线的'
+    },
+    // 搜索事件
+    getData: function getData() {var _this2 = this;
+      // 请求服务器 post keyword: val this.searchText
+      uni.showLoading();
+      setTimeout(function () {
+        var arr = [
+        {
+          userPic: '../../static/demo/userpic/12.jpg',
+          userName: '啦啦',
+          isFollow: false,
+          title: '我是标题',
+          type: 'img', // 图片img 视频video
+          titlePic: '../../static/demo/datapic/11.jpg',
+          infoNum: {
+            isOption: 2, // 0 没有操作 1 赞 2 踩
+            smileNum: 11,
+            cryNum: 2 },
+
+          commentNum: 20,
+          shareNum: 8 },
+
+        {
+          userPic: '../../static/demo/userpic/12.jpg',
+          userName: '啦啦',
+          isFollow: true,
+          title: '我是标题',
+          type: 'video', // 图片img 视频video
+          titlePic: '../../static/demo/datapic/11.jpg',
+          playNum: "2w",
+          longTime: '1:56',
+          infoNum: {
+            isOption: 1, // 0 没有操作 1 赞 2 踩
+            smileNum: 11,
+            cryNum: 2 },
+
+          commentNum: 20,
+          shareNum: 8 }];
+
+
+        _this2.list = arr;
+        uni.hideLoading();
+        _this2.isSearch = true;
+      }, 2000);
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ })
