@@ -1,0 +1,87 @@
+.common-list {
+	padding: 20rpx;
+	.common-list-left {
+		image {
+			width: 90rpx;
+			height: 90rpx;
+			border-radius: 100%;
+		}
+	}
+	.common-list-right {
+		flex: 1;
+		margin-left: 15rpx;
+		border-bottom: 1rpx solid #eee;
+		padding-bottom: 10rpx;
+		
+		.common-info {
+			&>view:first-child {
+				color: #999;
+				font-size: 32rpx;
+			}
+			&>view:last-child {
+				font-size: 26rpx;
+				
+				.common-follow {
+						background: #eee;
+						padding: 0 10rpx;
+						margin-right: 10rpx;
+				}
+			}
+		}
+		.common-title {
+			font-size: 32rpx;
+			padding: 12rpx 0;
+		}
+		.common-content {
+			position: relative;
+			
+			&>image {
+				width: 100%;
+				border-radius: 10rpx;
+			}
+			
+			.commit-list-play,.commit-list-playInfo  {
+				position: absolute;
+				color:#fff;
+			}
+			.commit-list-play {
+				font-size: 100rpx;
+			}
+			.commit-list-playInfo {
+				font-size: 10rpx;
+				bottom: 10rpx;
+				right: 10rpx;
+				background: rgba(0,0,0,.5);
+				border-radius: 20rpx;
+				padding: 0 20rpx;
+				font-size: 26rpx;
+			}
+			.common-list-share {
+				background: #eee;
+				width: 100%;
+				padding: 10rpx;
+				border-radius: 10rpx;
+				
+				&>image {
+					width: 200rpx;
+					height: 150rpx;
+					margin-right: 10rpx;
+					border-radius: 10rpx;
+				}
+			}
+		}
+		.common-detail {
+			margin-top: 15rpx;
+			&>view {
+				color: #aaa;
+			}
+			&>view:last-child {
+				view {
+					font-size: 28rpx;
+					margin-left: 10rpx;
+					padding-left: 5rpx;
+				}
+			}
+		}
+	}
+}

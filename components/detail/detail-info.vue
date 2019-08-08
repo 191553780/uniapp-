@@ -20,10 +20,15 @@
 					<view class="icon iconfont icon-guanbi1"></view>
 				</view>
 			</view>
+			
+			<view class="common-time">2天前</view>
+			
 			<view class="common-title">{{item.title}}</view>
 			<view class="common-content flex flex-item flex-JustCenter">
 				<!-- 图片 -->
-				<image v-if="item.titlePic" :src="item.titlePic" mode="widthFix" lazy-load></image>
+				<block v-for="(pic,picIndex) in item.morePic" :key="picIndex">
+					<image :src="pic" mode="widthFix" lazy-load @tap="imgDetail(picIndex)"></image>
+				</block>
 				<!-- 视频 -->
 				<template v-if="item.video">
 					<view class="commit-list-play icon iconfont icon-bofang"></view>
@@ -56,11 +61,6 @@ import tagSexAge from '@/components/common/tag-sex-age.vue'
 export default {
 	props:{
 		item: Object,
-		index: Number,
-		index1: {
-			type: Number,
-			default: undefined
-		},
 		itemClass: {
 			type: String,
 			default: 'fadeInLeft'
@@ -74,10 +74,12 @@ export default {
 	},
 	methods: {
 		follow (follow) {
-			this.$emit('fixFollow',{
-				index: this.index,
-				index1: this.index1,
-				follow
+			this.$emit('fixFollow', follow)
+		},
+		imgDetail (index) {
+			uni.previewImage({
+				urls:this.item.morePic,
+				current:index
 			})
 		}
 	}
@@ -85,5 +87,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../common/list.scss'
+@import '../../common/list.scss';
+.common-list {
+	border-bottom: 1rpx solid #eee;
+		.common-list-right {
+			border-bottom: 0; 
+			.common-time {
+				padding: 10rpx 0;
+				color:#ccc;
+				font-size: 25rpx;
+			}
+			.common-content {
+				flex-direction: column;
+				&>image {
+					margin-bottom: 15rpx;
+				}
+			}
+		}
+}
 </style>
