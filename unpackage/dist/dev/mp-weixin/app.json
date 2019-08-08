@@ -1,0 +1,53 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/dynamic/dynamic",
+    "pages/notes/notes",
+    "pages/home/home",
+    "pages/search/search",
+    "pages/add-input/add-input",
+    "pages/hot-nav/hot-nav",
+    "pages/talk-detail/talk-detail"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "糗事",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#FFFFFF"
+  },
+  "tabBar": {
+    "color": "#ADADAD",
+    "selectedColor": "#fee42a",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "/static/tabbar/index.png",
+        "selectedIconPath": "/static/tabbar/indexSelect.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/dynamic/dynamic",
+        "iconPath": "/static/tabbar/dynamic.png",
+        "selectedIconPath": "/static/tabbar/dynamicSelect.png",
+        "text": "动态"
+      },
+      {
+        "pagePath": "pages/notes/notes",
+        "iconPath": "/static/tabbar/notes.png",
+        "selectedIconPath": "/static/tabbar/notesSelect.png",
+        "text": "小纸条"
+      },
+      {
+        "pagePath": "pages/home/home",
+        "iconPath": "/static/tabbar/home.png",
+        "selectedIconPath": "/static/tabbar/homeSelect.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap60.json"
+}

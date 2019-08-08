@@ -1,0 +1,2 @@
+setCssToHead(["@charset \x22UTF-8\x22;\n.",[1],"privacy { height: 100%; margin-left: ",[0,-25],"; }\n.",[1],"uni-textarea { border: ",[0,1]," solid #eee; }\n.",[1],"notice { width: ",[0,520],"; }\n.",[1],"notice wx-image { width: 75%; margin-bottom: ",[0,20],"; }\n.",[1],"notice wx-button { background: #ffe934; margin-bottom: ",[0,20],"; }\n",],undefined,{path:"./pages/add-input/add-input.wxss"})();
+document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/add-input/add-input.wxml') } }));

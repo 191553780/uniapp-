@@ -1,0 +1,2 @@
+setCssToHead(["@charset \x22UTF-8\x22;\n.",[1],"talk-list.",[1],"data-v-1fd5d946 { padding: 0 ",[0,20],"; }\n",],undefined,{path:"./pages/hot-nav/hot-nav.wxss"})();
+document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/hot-nav/hot-nav.wxml') } }));

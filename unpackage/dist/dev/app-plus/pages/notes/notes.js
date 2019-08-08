@@ -1,0 +1,2 @@
+setCssToHead(["@charset \x22UTF-8\x22;\n.",[1],"notes-body.",[1],"data-v-4e8368fc { padding: 0 ",[0,20],"; position: relative; }\n",],undefined,{path:"./pages/notes/notes.wxss"})();
+document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/notes/notes.wxml') } }));

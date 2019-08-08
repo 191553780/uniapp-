@@ -1,0 +1,11 @@
+{
+  "titleNView": false,
+  "bounce": "none",
+  "usingComponents": {
+    "common-list": "/components/common/common-list",
+    "dynamic-nav-bar": "/components/dynamic/dynamic-nav-bar",
+    "load-more": "/components/common/load-more",
+    "hot-type": "/components/dynamic/hot-type",
+    "last-new": "/components/dynamic/last-new"
+  }
+}
