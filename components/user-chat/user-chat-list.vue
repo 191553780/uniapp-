@@ -19,9 +19,19 @@
 
 <script>
 export default {
+	name: 'user-chat-list',
 	props: {
 		item: Object,
 		index: Number
+	},
+	data () {
+		return {
+		}
+	},
+	mounted() {
+	},
+	methods: {
+
 	}
 }
 </script>

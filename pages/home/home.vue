@@ -6,7 +6,7 @@
 			<!-- 第三方 -->
 			<other-login></other-login>
 			<!-- 账号密码登录 -->
-			<view class="flex flex-item flex-JustCenter">
+			<view class="flex flex-item flex-JustCenter" @tap="openLogin">
 				账号密码登录
 				<view class="icon iconfont icon-jinru"></view>
 			</view>
@@ -55,15 +55,21 @@ export default {
 			list: [
 				{
 					name: '浏览历史',
-					icon: 'liulan'
+					icon: 'liulan',
+					clickType: '',
+					url: ''
 				},
 				{
 					name: '糗百认证',
-					icon: 'huiyuan'
+					icon: 'huiyuan',
+					clickType: '',
+					url: ''
 				},
 				{
 					name: '审核糗事',
-					icon: 'icon_im_keyboard'
+					icon: 'icon_im_keyboard',
+					clickType: '',
+					url: ''
 				}
 			]
 		}
@@ -82,7 +88,11 @@ export default {
 		}
 	},
 	methods: {
-		
+		openLogin () {
+			uni.navigateTo({
+				url: '../login/login'
+			})
+		}
 	}
 }
 </script>

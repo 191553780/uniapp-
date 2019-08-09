@@ -4912,7 +4912,27 @@ to {
 	    -ms-flex-pack: center;
 	        justify-content: center;
 }
+.flex-1{
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	    -ms-flex: 1;
+	        flex: 1
+}
+.flex-column {
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	    -ms-flex-direction: column;
+	        flex-direction: column;
+}
 .uni-scroll-view ._div{
 	height: 100%;
+}
+.user-set-btn {
+	width: 100%;
+	margin: 20rpx 0;
+	background: #ffe933 !important;
+	color: #333 !important;
+	border: 0;
 }
 

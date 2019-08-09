@@ -13,13 +13,41 @@ export default {
 	data() {
 		return {
 			list: [
-				{name: '账号与安全'},
-				{name: '绑定邮箱'},
-				{name: '资料编辑'},
-				{name: '小纸条'},
-				{name: '清除缓存'},
-				{name: '意见反馈'},
-				{name: '关于'}
+				{
+					name: '账号与安全',
+					clickType: 'navigateTo',
+					url: '../../pages/user-set-repassword/user-set-repassword'
+				},
+				{
+					name: '绑定邮箱',
+					clickType: 'navigateTo',
+					url: '../../pages/user-set-email/user-set-email'
+				},
+				{
+					name: '资料编辑',
+					clickType: 'navigateTo',
+					url: '../../pages/user-set-info/user-set-info'
+				},
+				{
+					name: '小纸条',
+					clickType: 'navigateTo',
+					url: ''
+				},
+				{
+					name: '清除缓存',
+					clickType: '',
+					url: ''
+				},
+				{
+					name: '意见反馈',
+					clickType: 'navigateTo',
+					url: '../../pages/user-set-help/user-set-help'
+				},
+				{
+					name: '关于',
+					clickType: 'navigateTo',
+					url: '../../pages/user-set-about/user-set-about'
+				}
 			]
 		}
 	},
@@ -35,12 +63,5 @@ export default {
 <style scoped lang="scss">
 .user-set {
 	padding: 0 20rpx;
-	.user-set-btn {
-		width: 100%;
-		margin: 20rpx 0;
-		background: #ffe933;
-		color: #333;
-		border: 0;
-	}
 }
 </style>

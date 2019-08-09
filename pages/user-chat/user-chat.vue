@@ -9,7 +9,9 @@
 			:style="{height: style.contentHeight + 'px'}"
 		>
 			<block v-for="(item,index) in list" :key="index">
-				<user-chat-list :item="item" :index="index"></user-chat-list>
+				<view class="user-chat-item">
+					<user-chat-list ref="userChatList" :item="item" :index="index"></user-chat-list>
+				</view>
 			</block>
 		</scroll-view>
 		<!-- 输入框 -->
@@ -30,6 +32,7 @@ export default {
 				contentHeight: 0,
 				itemHeight: 0
 			},
+			childElements: [],
 			list: [],
 		};
 	},
@@ -41,7 +44,7 @@ export default {
 		this.getData()
 		this.initData()
 	},
-	onReady() {
+	mounted() {
 		this.pageToBottom()
 	},
 	methods: {
@@ -53,11 +56,11 @@ export default {
 			} catch (e) {}
 		},
 		pageToBottom () {
+			// console.log(this.$refs);
 			let q = uni.createSelectorQuery()
 			q.select('#scroll-view').boundingClientRect()
-			q.selectAll('.user-chat').boundingClientRect()
+			q.selectAll('.user-chat-item').boundingClientRect()
 			q.exec((res) => {
-				console.log(res)
 				res[1].forEach((item) => {
 					this.style.itemHeight += item.height
 				})

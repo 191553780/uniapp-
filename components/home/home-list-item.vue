@@ -23,7 +23,25 @@ export default {
 		index: Number
 	},
 	methods: {
-		openEvent () {}
+		openEvent () {
+			switch (this.item.clickType) {
+				case 'navigateTo':
+					if (this.item.url) uni.navigateTo({ url:this.item.url })
+				break;
+				case 'redirectTo':
+					if (this.item.url) uni.redirectTo({ url:this.item.url })
+				break;
+				case 'switchTab':
+					if (this.item.url) uni.switchTab({ url:this.item.url })
+				break;
+				case 'reLaunch':
+					if (this.item.url) uni.reLaunch({ url:this.item.url })
+				break;
+				case 'navigateBack':
+					if (this.item.url) uni.navigateBack({ url:this.item.url })
+				break;
+			}
+		}
 	}
 }
 </script>

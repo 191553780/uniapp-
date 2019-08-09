@@ -1,0 +1,1 @@
+<view class="home-data flex flex-item data-v-f736e0ca"><block wx:for="{{homeData}}" wx:for-item="item" wx:for-index="index" wx:key="index"><block class="data-v-f736e0ca"><view class="flex-1 flex flex-item flex-JustCenter flex-column data-v-f736e0ca"><view class="data-v-f736e0ca">{{item.num}}</view>{{''+item.name+''}}</view></block></block></view>
