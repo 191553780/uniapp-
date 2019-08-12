@@ -1,5 +1,5 @@
 <template>
-	<view :style="{ height: statusBarHeight,background: '#007aff' }" class="uni-status-bar">
+	<view :style="{ height: statusBarHeight,background: bjColor }" class="uni-status-bar">
 		<slot />
 	</view>
 </template>
