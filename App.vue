@@ -1,6 +1,8 @@
 <script>
 	export default {
 		onLaunch: function() {
+			// console.log(this.config.webUrl);
+			this.lib.NetWork.On()
 			console.log('App Launch')
 		},
 		onShow: function() {

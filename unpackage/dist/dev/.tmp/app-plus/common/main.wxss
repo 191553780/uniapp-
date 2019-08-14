@@ -13,6 +13,8 @@
 
 
 
+
+
 /*每个页面公共css */
 @font-face {
 	font-family: uniicons;
@@ -1624,6 +1626,9 @@ radio-group label, checkbox-group label{
     -webkit-transform: translateY(50%);
         -ms-transform: translateY(50%);
             transform: translateY(50%);
+}
+image {
+	will-change: transform
 }
 @font-face {
 	font-family: "iconfont";

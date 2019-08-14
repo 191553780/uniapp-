@@ -1,5 +1,5 @@
 <template>
-	<view class="notes-list flex flex-item animated fast fadeInLeft" @tap="openChat">
+	<view class="notes-list flex flex-item animated fast fadeIn" @tap="openChat">
 		<image :src="item.userPic" mode="" lazy-load></image>
 		<view class="notes-list-r">
 			<view class="notes-title flex flex-item flex-JustBetween">

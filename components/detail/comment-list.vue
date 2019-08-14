@@ -1,5 +1,5 @@
 <template>
-	<view class="uni-comment-list" 
+	<view class="uni-comment-list animated fast fadeIn" 
 		:class="{'u-comment-list-child': item.level > 0}"
 	>
 		<view class="uni-comment-face">

@@ -1,5 +1,5 @@
 <template>
-	<view class="user-chat-bottom flex flex-item flex-JustBetween">
+	<view class="user-chat-bottom flex flex-item flex-JustBetween animated fast fadeInUp">
 		<input type="text" placeholder="文明发言" v-model="text"/>
 		<view class="icon iconfont icon-fabu flex flex-JustCenter" @tap="submit"></view>
 	</view>

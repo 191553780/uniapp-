@@ -59,12 +59,11 @@
     ]
   },
   "nvueCompiler": "weex",
-  "renderer": "auto",
   "splashscreen": {
     "alwaysShowBeforeRender": true,
     "autoclose": false
   },
   "appname": "嗅事app",
-  "compilerVersion": "2.2.0",
+  "compilerVersion": "2.1.3",
   "usingComponents": {}
 }

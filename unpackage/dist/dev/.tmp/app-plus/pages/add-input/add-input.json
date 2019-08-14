@@ -1,5 +1,7 @@
 {
   "titleNView": false,
+  "animationType": "slide-in-bottom",
+  "animationDuration": 200,
   "usingComponents": {
     "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
     "up-load": "/components/common/upload",

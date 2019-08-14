@@ -1,1 +1,2 @@
+setCssToHead(["@charset \x22UTF-8\x22;\n.",[1],"user-space-data.",[1],"data-v-f530e484 { background: #fff; position: relative; z-index: 10; border-top-left-radius: ",[0,20],"; border-top-right-radius: ",[0,20],"; margin-top: ",[0,-15],"; }\n",],undefined,{path:"./pages/user-space/user-space.wxss"})();
 document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/user-space/user-space.wxml') } }));

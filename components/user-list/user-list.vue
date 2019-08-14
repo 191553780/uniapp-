@@ -1,5 +1,5 @@
 <template>
-	<view class="user-list-item flex flex-item animated fadeInLeft fast">
+	<view class="user-list-item flex flex-item animated fadeIn fast">
 			<image :src="item.userPic" mode="" lazy-load></image>
 			<view>
 				<view class="username">{{item.userName}}</view>

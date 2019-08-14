@@ -136,7 +136,9 @@
 			"style" : {
 				"app-plus": {
 					// 禁用原生导航
-					"titleNView": false
+					"titleNView": false,
+					"animationType":"slide-in-bottom",
+					"animationDuration": 200
 				}
 			}
 		},
@@ -154,6 +156,8 @@
 			"style" : {
 				"enablePullDownRefresh": true, // 开启下拉刷新
 				"app-plus": {
+					"animationType":"slide-in-bottom",
+					"animationDuration": 200,
 					"titleNView": {
 						"type": "transparent", // 渐变
 						"buttons": [

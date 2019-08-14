@@ -63,7 +63,7 @@ export default {
 		item: Object,
 		itemClass: {
 			type: String,
-			default: 'fadeInLeft'
+			default: 'fadeIn'
 		}
 	},
 	data () {

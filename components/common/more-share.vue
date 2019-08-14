@@ -105,7 +105,8 @@ export default {
 	methods: {
 		toggolShow () {
 			this.$emit('toggolShow')
-			console.log(this.providerList);
+			// console.log(this.providerList);
+			
 		},
 		async share(e) {
 			console.log('分享通道:'+ e.id +'； 分享类型:' + this.shareType);

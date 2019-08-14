@@ -1,5 +1,5 @@
 <template>
-	<view class="index-list animated fadeInLeft fast">
+	<view class="index-list animated fadeIn fast">
 		<view class="index-list-one flex flex-item flex-JustBetween">
 			<view class="flex flex-item">
 				<image :src="item.userPic" mode="widthFix" lazy-load></image>

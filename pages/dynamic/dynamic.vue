@@ -20,7 +20,7 @@
 					<scroll-view scroll-y class="list" @scrolltolower="loadMore">
 						<!-- 列表 -->
 						<block v-for="(item,index) in guanzhu.list" :key="index">
-							<common-list :item="item" :index="index" @fixFollow="fixFollow"></common-list>
+							<common-list :item="item" :index="index"></common-list>
 						</block>
 						<!-- 上拉加载 -->
 						<load-more :loadText="guanzhu.loadText"></load-more>
@@ -230,13 +230,6 @@ export default {
 		})
 	},
 	methods: {
-		fixFollow (obj) {
-			// console.log(obj)
-			this.list[obj.index].isFollow = !obj.follow 
-			uni.showToast({
-				title: '关注成功'
-			})
-		},
 		// 点击切换
 		changeIndex (index) {
 			this.tabIndex = index

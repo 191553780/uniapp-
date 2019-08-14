@@ -11,8 +11,8 @@
 				</view>
 				<view class="flex flex-item flex-JustCenter">
 					<view class="common-follow flex flex-item flex-JustCenter"
-						v-show="!item.isFollow"
-						@tap="follow(item.isFollow)"
+						v-show="!isFollow"
+						@tap="follow(isFollow)"
 					>
 							<view class="icon iconfont icon-zengjia1"></view>
 							关注
@@ -63,22 +63,28 @@ export default {
 		},
 		itemClass: {
 			type: String,
-			default: 'fadeInLeft'
+			default: 'fadeIn'
 		}
 	},
 	data () {
-		return {}
+		return {
+			isFollow: this.item.isFollow
+		}
 	},
 	components: {
 		tagSexAge
 	},
 	methods: {
 		follow (follow) {
-			this.$emit('fixFollow',{
-				index: this.index,
-				index1: this.index1,
-				follow
+			this.isFollow = !this.isFollow
+			uni.showToast({
+				title: '关注成功'
 			})
+			// this.$emit('fixFollow',{
+			// 	index: this.index,
+			// 	index1: this.index1,
+			// 	follow
+			// })
 		}
 	}
 }

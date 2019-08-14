@@ -19,7 +19,7 @@
 		<more-share :shareShow="shareShow" @toggolShow="toggolShow"></more-share>
 	</view>
 </template>
-
+ 
 <script>
 import detailInfo from '@/components/detail/detail-info.vue'
 import commentList from '@/components/detail/comment-list.vue'

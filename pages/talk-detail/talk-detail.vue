@@ -14,7 +14,7 @@
 			<block v-for="(item,index) in tabList" :key="index">
 				<template v-if="tabIndex == index">
 					<block v-for="(list,listIndex) in item.list" :key="listIndex">
-						<common-list :item="list" :index="index" :index1="listIndex" @fixFollow="fixFollow"></common-list>
+						<common-list :item="list" :index="index" :index1="listIndex"></common-list>
 					</block>
 					<!-- 上拉加载 -->
 					<load-more :loadText="item.loadText"></load-more>
@@ -216,13 +216,6 @@ export default {
 	methods: {
 		fixIndex (index) {
 			this.tabIndex = index
-		},
-		fixFollow (obj) {
-			// console.log(obj)
-			this.tabList[obj.index].list[obj.index1].isFollow = !obj.follow 
-			uni.showToast({
-				title: '关注成功'
-			})
 		},
 		tabChange (e) {
 			let sIndex = e.detail.current
