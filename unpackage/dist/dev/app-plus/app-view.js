@@ -1423,7 +1423,7 @@ Z([3,'name'])
 Z([3,'data-v-5ba1a522'])
 Z([3,'__e'])
 Z([3,'flex flex-item flex-JustCenter flex-1 data-v-5ba1a522'])
-Z([[4],[[5],[[4],[[5],[[5],[1,'tap']],[[4],[[5],[[4],[[5],[[5],[1,'tologin']],[[4],[[5],[1,'$event']]]]]]]]]]])
+Z([[4],[[5],[[4],[[5],[[5],[1,'tap']],[[4],[[5],[[4],[[5],[[5],[[5],[1,'tologin']],[[4],[[5],[1,'$0']]]],[[4],[[5],[[4],[[5],[[4],[[5],[[5],[[5],[1,'providerList']],[1,'name']],[[6],[[7],[3,'item']],[3,'name']]]]]]]]]]]]]]]])
 Z([[4],[[5],[[5],[1,'icon iconfont flex flex-item flex-JustCenter data-v-5ba1a522']],[[2,'+'],[1,'icon-'],[[6],[[7],[3,'item']],[3,'icon']]]]])
 })(__WXML_GLOBAL__.ops_cached.$gwx_15);return __WXML_GLOBAL__.ops_cached.$gwx_15
 }

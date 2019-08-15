@@ -1,7 +1,7 @@
 <template>
 	<view class="other-login flex flex-item">
 		<block v-for="(item,index) in providerList" :key="item.name">
-			<view class="flex flex-item flex-JustCenter flex-1" @tap="tologin">
+			<view class="flex flex-item flex-JustCenter flex-1" @tap="tologin(item)">
 				<view 
 					class="icon iconfont flex flex-item flex-JustCenter"
 					:class="['icon-'+item.icon]"
@@ -55,7 +55,6 @@ export default {
 							id: value
 						}
 					});
-				
 				},
 				fail: (error) => {
 					console.log('获取登录通道失败', error);
@@ -64,15 +63,23 @@ export default {
 		},
 		// 登录
 		tologin(provider) {
+			console.log(provider.id);
 			uni.login({
 				provider: provider.id,
 		              // #ifdef MP-ALIPAY
 		              scopes: 'auth_user',  //支付宝小程序需设置授权类型
 		              // #endif
 				success: (res) => {
-					console.log('login success:', res);
+					console.log('login success:', JSON.stringify(res));
 					// 更新保存在 store 中的登录状态
 					// this.login(provider.id);
+					uni.getUserInfo({
+						provider:provider.id,
+						success: (infoRes) => {
+							console.log(JSON.stringify(infoRes.userInfo));
+						}
+					})
+					
 					console.log('登录成功,保存到本地存储,修改当前用户登录状态');
 				},
 				fail: (err) => {

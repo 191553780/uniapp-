@@ -39,7 +39,7 @@ import homeData from '@/components/home/home-data.vue'
 export default {
 	data() {
 		return {
-			isLogin: true,
+			isLogin: false,
 			homeInfo: {
 				userPic: '../../static/demo/userpic/20.jpg',
 				userName: '昵称',

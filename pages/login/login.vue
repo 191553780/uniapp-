@@ -93,7 +93,7 @@ import otherLogin from '@/components/home/other-login.vue'
 
 export default {
 	data() {
-		return {
+		return { 
 			status: false, // false 账号密码登录 true 手机登录
 			disabled: true,
 			loading: false,
