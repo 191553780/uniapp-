@@ -19,16 +19,10 @@ export default{
 		options.url = this.config.baseUrl+options.url;
 		// TODO：token增加等操作
 		if (options.token) {
-			if (options.checkToken && !User.token) {
-				uni.showToast({ title: '请先登录', icon: 'none' })
-				return uni.navigateTo({
-					url: '/pages/login/login'
-				})
-			}
 			// 验证用户是否登录
-			// if (!this.checkToken(options.checkToken)) return;
+			if (!this.checkToken(options.checkToken)) return;
 			// 验证用户操作权限（验证是否绑定手机号码）
-			// if (!this.checkAuth(options.checkAuth)) return;
+			if (!this.checkAuth(options.checkAuth)) return;
 			options.header.token = User.token;
 		}
 		return uni.request(options);

@@ -10,7 +10,7 @@
 		>
 			<block v-for="(item,index) in list" :key="index">
 				<view class="user-chat-item">
-					<user-chat-list ref="userChatList" :item="item" :index="index"></user-chat-list>
+					<user-chat-list :item="item" :index="index"></user-chat-list>
 				</view>
 			</block>
 		</scroll-view>
@@ -40,12 +40,10 @@ export default {
 		userChatBottom,
 		userChatList
 	},
-	onLoad () {
+	mounted() {
 		this.getData()
 		this.initData()
-	},
-	mounted() {
-		this.pageToBottom()
+		this.pageToBottom(true)
 	},
 	methods: {
 		// 初始化参数
@@ -55,24 +53,86 @@ export default {
 				this.style.contentHeight = res.windowHeight - uni.upx2px(120)
 			} catch (e) {}
 		},
-		pageToBottom () {
-			// console.log(this.$refs);
-			let q = uni.createSelectorQuery()
-			q.select('#scroll-view').boundingClientRect()
-			q.selectAll('.user-chat-item').boundingClientRect()
-			q.exec((res) => {
-				res[1].forEach((item) => {
-					this.style.itemHeight += item.height
-				})
-				
-				if (this.style.itemHeight > this.style.contentHeight) {
-					this.scrollTop = this.style.itemHeight
-				}
+		pageToBottom (isFirst = false) {
+			let q = uni.createSelectorQuery().in(this);
+			let itemH = q.selectAll('.user-chat-item');
+			this.$nextTick(() => {
+				itemH.fields({
+					size: true
+				}, data => {
+					// console.log(JSON.stringify(data));
+					if (data) {
+						if (isFirst) {
+							for (let i = 0;i < data.length; i++) {
+								this.style.itemHeight += data[i].height
+							}
+						} else {
+							this.style.itemHeight += data[data.length - 1].height
+						}
+						this.scrollTop = (this.style.itemHeight > this.style.contentHeight) ? this.style.itemHeight : 0;
+					}
+				}).exec();
 			})
 		},
 		// 获取聊天数据
 		getData () {
 			let arr = [
+				{
+					isMe: false,
+					userpic: '../../static/demo/userpic/19.jpg',
+					type: 'text',
+					data: '啦啦啦',
+					time: 1565161994
+				},
+				{
+					isMe: true,
+					userpic: '../../static/demo/userpic/20.jpg',
+					type: 'img',
+					data: '../../static/demo/datapic/29.jpg',
+					time: 1565162000
+				},
+				{
+					isMe: false,
+					userpic: '../../static/demo/userpic/19.jpg',
+					type: 'text',
+					data: '啦啦啦',
+					time: 1565161994
+				},
+				{
+					isMe: true,
+					userpic: '../../static/demo/userpic/20.jpg',
+					type: 'img',
+					data: '../../static/demo/datapic/29.jpg',
+					time: 1565162000
+				},
+				{
+					isMe: false,
+					userpic: '../../static/demo/userpic/19.jpg',
+					type: 'text',
+					data: '啦啦啦',
+					time: 1565161994
+				},
+				{
+					isMe: true,
+					userpic: '../../static/demo/userpic/20.jpg',
+					type: 'img',
+					data: '../../static/demo/datapic/29.jpg',
+					time: 1565162000
+				},
+				{
+					isMe: false,
+					userpic: '../../static/demo/userpic/19.jpg',
+					type: 'text',
+					data: '啦啦啦',
+					time: 1565161994
+				},
+				{
+					isMe: true,
+					userpic: '../../static/demo/userpic/20.jpg',
+					type: 'img',
+					data: '../../static/demo/datapic/29.jpg',
+					time: 1565162000
+				},
 				{
 					isMe: false,
 					userpic: '../../static/demo/userpic/19.jpg',

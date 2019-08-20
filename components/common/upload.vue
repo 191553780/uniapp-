@@ -104,6 +104,7 @@ export default {
 		color: #fff;
 		padding: 2rpx 10rpx;
 		border-radius: 10rpx;
+		z-index: 100; 
 	}
 }
 </style>

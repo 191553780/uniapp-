@@ -110,7 +110,7 @@ export default {
 		// console.log(e.index);
 		if (e.index == 0) {
 			this.isShow = false
-			uni.navigateTo({
+			this.User.navigate({
 				url: '../user-list/user-list'
 			})
 		}

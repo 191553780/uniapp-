@@ -2,10 +2,10 @@
 	<view class="index-list animated fadeIn fast">
 		<view class="index-list-one flex flex-item flex-JustBetween">
 			<view class="flex flex-item">
-				<image :src="item.userPic" mode="widthFix" lazy-load></image>
-				{{item.userName}}
+				<image :src="item.userpic" mode="widthFix" lazy-load></image>
+				{{item.username}}
 			</view>
-			<view class="flex flex-item" v-show="!item.isFollow" @tap="follow(item.isFollow)">
+			<view class="flex flex-item" v-show="!item.isguanzhu" @tap="follow(item.isguanzhu)">
 				<view class="icon iconfont icon-zengjia1"></view>
 				关注
 			</view>
@@ -13,34 +13,34 @@
 		<view class="index-list-two" @tap="openDetail">{{item.title}}</view>
 		<view class="index-list-three flex flex-item flex-JustCenter" @tap="openDetail">
 			<!-- 图片 -->
-			<image :src="item.titlePic" mode="widthFix" lazy-load></image>
+			<image :src="item.titlepic" mode="widthFix" lazy-load></image>
 			<!-- 视频 -->
 			<template v-if="item.type === 'video'">
 				<view class="index-list-play icon iconfont icon-bofang"></view>
 				<view class="index-list-info">
-					{{item.playNum}} 次播放 {{item.longTime}}
+					{{item.playnum}} 次播放 {{item.longtime}}
 				</view>	
 			</template>				
 		</view>
 		<view class="index-list-four flex flex-item flex-JustBetween">
 			<view class="flex flex-item">
 				<view class="flex flex-item" @tap="operate('smile')">
-					<view :class="['icon', 'iconfont', 'icon-xiaolian1', {'active': item.infoNum.isOption === 1}]"></view>
-					{{item.infoNum.smileNum}}
+					<view :class="['icon', 'iconfont', 'icon-xiaolian1', {'active': item.infonum.index === 1}]"></view>
+					{{item.infonum.dingnum}}
 				</view>
 				<view class="flex flex-item" @tap="operate('cry')">
-					<view :class="['icon', 'iconfont', 'icon-kulian', {'active': item.infoNum.isOption === 2}]"></view>
-					{{item.infoNum.cryNum}}
+					<view :class="['icon', 'iconfont', 'icon-kulian', {'active': item.infonum.index === 2}]"></view>
+					{{item.infonum.cainum}}
 				</view>
 			</view>
 			<view class="flex flex-item">
 				<view class="flex flex-item">
 					<view class="icon iconfont icon-pinglun1"></view>
-					{{item.commentNum}}
+					{{item.commentnum}}
 				</view>
 				<view class="flex flex-item">
 					<view class="icon iconfont icon-zhuanfa"></view>
-					{{item.shareNum}}
+					{{item.sharenum}}
 				</view>
 			</view>
 		</view>
@@ -67,9 +67,9 @@
 		},
 		methods: {
 			// 关注
-			follow (follow) {
+			follow (guanzhu) {
 				this.$emit('follow',{
-					follow,
+					guanzhu,
 					index: this.index,
 					index1: this.index1
 				})

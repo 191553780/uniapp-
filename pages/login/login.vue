@@ -118,9 +118,7 @@ export default {
 		},
 		// 返回上一步
 		back () {
-			uni.navigateBack({
-				delta:1
-			})
+			uni.navigateBack({ delta:1 })
 			console.log('返回');
 		},
 		// 登录
