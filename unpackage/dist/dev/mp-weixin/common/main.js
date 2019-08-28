@@ -68,7 +68,11 @@ __webpack_require__.r(__webpack_exports__);
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
 {
   onLaunch: function onLaunch() {
+    // console.log(this.config.webUrl);
+    this.lib.NetWork.On();
     console.log('App Launch');
+    // 初始化用户
+    this.User.__init();
   },
   onShow: function onShow() {
     console.log('App Show');

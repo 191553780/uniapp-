@@ -20,7 +20,7 @@
 					<scroll-view scroll-y class="list" @scrolltolower="loadMore">
 						<!-- 列表 -->
 						<block v-for="(item,index) in guanzhu.list" :key="index">
-							<common-list :item="item" :index="index"></common-list>
+							<common-list :item="item" :index="index" @changeEvent="updateData"></common-list>
 						</block>
 						<!-- 上拉加载 -->
 						<load-more :loadText="guanzhu.loadText"></load-more>
@@ -33,7 +33,9 @@
 						<view class="talk-search">
 							<input class="uni-input" value="" 
 								placeholder-class="icon iconfont icon-sousuo pic-search" 
-								placeholder="搜索内容" 
+								placeholder="搜索话题" 
+								disabled
+								@tap="openSearch"
 							/>
 						</view>
 						<!-- 轮播图 -->
@@ -81,130 +83,15 @@ export default {
 				{name:'话题',id:'huati'}
 			],
 			guanzhu: {
-				loadText: "上拉加载更多...",
-				list: [
-					// 文字
-					{
-						userPic: '../../static/demo/userpic/12.jpg',
-						userName: '啦啦啦',
-						sex: 0, // 0 男 1 女
-						age: 25,
-						isFollow: false,
-						title: '如果声音有形状，你的会是什么样',
-						titlePic: '',
-						video: false,
-						share: false,
-						path: '重庆 渝中',
-						shareNum: 50,
-						commenNum: 20,
-						goodNum: 101
-					},
-					// 图文
-					{
-						userPic: '../../static/demo/userpic/12.jpg',
-						userName: '啦啦啦',
-						sex: 1, // 0 男 1 女
-						age: 25,
-						isFollow: false,
-						title: '如果声音有形状，你的会是什么样',
-						titlePic: '../../static/demo/datapic/1.jpg',
-						video: false,
-						share: false,
-						path: '重庆 渝中',
-						shareNum: 50,
-						commenNum: 20,
-						goodNum: 101
-					},
-					// 视频
-					{
-						userPic: '../../static/demo/userpic/12.jpg',
-						userName: '啦啦啦',
-						sex: 1, // 0 男 1 女
-						age: 25,
-						isFollow: false,
-						title: '如果声音有形状，你的会是什么样',
-						titlePic: '../../static/demo/datapic/1.jpg',
-						video: {
-							lookNum: '2w',
-							loog: '1:28'
-						},
-						share: false,
-						path: '重庆 渝中',
-						shareNum: 50,
-						commenNum: 20,
-						goodNum: 101
-					},
-					// 分享
-					{
-						userPic: '../../static/demo/userpic/12.jpg',
-						userName: '啦啦啦',
-						sex: 0, // 0 男 1 女
-						age: 25,
-						isFollow: false,
-						title: '如果声音有形状，你的会是什么样',
-						titlePic: '',
-						video: false,
-						share: {
-							title: '我是分享的标题',
-							titlePic: '../../static/demo/datapic/16.jpg'
-						},
-						path: '重庆 渝中',
-						shareNum: 50,
-						commenNum: 20,
-						goodNum: 101
-					}
-				],
+				firstload:false,
+				loadText:"上拉加载更多",
+				page:1,
+				list:[]
 			},
 			talk: {
-				swiper:[
-					{
-						src: '../../static/demo/banner1.jpg',
-					},
-					{
-						src: '../../static/demo/banner2.jpg',
-					},
-					{
-						src: '../../static/demo/banner3.jpg',
-					}
-				],
-				hotType: [
-					{name: '最新'},
-					{name: '游戏'},
-					{name: '打卡'},
-					{name: '情感'},
-					{name: '故事'},
-					{name: '喜爱'}
-				],
-				list: [
-					{
-						titlePic: '../../static/demo/topicpic/12.jpeg',
-						title: '话题名称',
-						desc: '我是话题描述',
-						total: 545,
-						todayNum: 720
-					},
-					{
-						titlePic: '../../static/demo/topicpic/12.jpeg',
-						title: '话题名称',
-						desc: '我是话题描述',
-						total: 577,
-						todayNum: 821
-					},
-					{
-						titlePic: '../../static/demo/topicpic/12.jpeg',
-						title: '话题名称',
-						desc: '我是话题描述',
-						total: 507,
-						todayNum: 707
-					},
-					{
-						titlePic: '../../static/demo/topicpic/12.jpeg',
-						title: '话题名称',
-						desc: '我是话题描述',
-						total: 507,
-						todayNum: 707
-					}
-				]
+				swiper:[],
+				hotType: [],
+				list: []
 			}
 		}
 	},
@@ -221,15 +108,131 @@ export default {
 			success(res) {
 				let sHeight = res.windowHeight - uni.upx2px(100)
 				_self.swiperHeight = sHeight
-			},
-			fail(e) {
-				uni.showToast({
-					title: '获取手机设备信息失败'
-				})
 			}
 		})
+		this.__init();
+	},
+	onShow() {
+		this.getFollowPostList();
 	},
 	methods: {
+		// 初始化方法
+		__init () {
+			this.getSwiper();
+			this.getNav();
+			this.getHot();
+			// 开启监听
+			uni.$on('updateData',this.updateData);
+		},
+		// 打开搜索页
+		openSearch(){
+			uni.navigateTo({
+				url: '../search/search?searchType=topic'
+			});
+		},
+		// 获取动态列表
+		async getFollowPostList(){
+			let url = `/followpost/${this.guanzhu.page}`;
+			let [err,res] = await this.$http.get(url,{},{
+				token:true
+			}); 
+			if (!this.$http.errorCheck(err,res)) {
+				this.guanzhu.firstload = true;
+				return this.guanzhu.loadText="上拉加载更多";
+			}
+			let arr = [];
+			// console.log(res)
+			let list = res.data.data.list;
+			for (let i = 0; i < list.length; i++) {
+				arr.push(this.__format(list[i]));
+			}
+			this.guanzhu.list = this.guanzhu.page > 1 
+								? this.guanzhu.list.concat(arr) : arr;
+			this.guanzhu.firstload = true;
+			this.guanzhu.loadText=list.length < 10 ? "我是有底线的..." : "上拉加载更多";
+			return;
+		},
+		__format(item){
+			let obj = {
+				userid:item.user.id,
+				userpic:item.user.userpic,
+				username:item.user.username,
+				isguanzhu:!!item.user.fens.length,
+				id:item.id,
+				title:item.title,
+				type:"img", // img:图文,video:视频
+				titlepic:item.titlepic,
+				video:false,
+				path:item.path,
+				share:!!item.share,
+				infonum:{
+					index:(item.support.length>0) ? (item.support[0].type+1) : 0,//0:没有操作，1:顶,2:踩；
+					dingnum:item.ding_count,
+					cainum:item.cai_count,
+				},
+				sex:item.user.userinfo.sex,
+				age:item.user.userinfo.age,
+				goodnum:item.ding_count,
+				commentnum:item.comment_count,
+				sharenum:item.sharenum,
+			};
+			if (item.user_id === this.User.userinfo.id) {
+				obj.isguanzhu = true;
+			}
+			return obj;
+		},
+		// 获取广告
+		async getSwiper(){
+			let [err,res] = await this.$http.get('/adsense/0');
+			if (!this.$http.errorCheck(err,res)) return;
+			// console.log(res);
+			
+			let arr = [];
+			let list = res.data.data.list;
+			for (let i = 0; i < list.length; i++) {
+				arr.push({
+					src:list[i].src,
+					url:list[i].url
+				})
+			}
+			this.talk.swiper = arr;
+		},
+		// 获取热门分类
+		async getNav(){
+			let [err,res] = await this.$http.get('/topicclass');
+			if (!this.$http.errorCheck(err,res)) return;
+			// console.log(res);
+			
+			let arr = [];
+			let list = res.data.data.list;
+			for (let i = 0; i < list.length; i++) {
+				arr.push({
+					id:list[i].id,
+					name:list[i].classname
+				})
+			}
+			this.talk.hotType = arr;
+		},
+		// 获取热门话题
+		async getHot(){
+			let [err,res] = await this.$http.get('/hottopic');
+			if (!this.$http.errorCheck(err,res)) return;
+			// console.log(res);
+			
+			let arr = [];
+			let list = res.data.data.list;
+			for (let i = 0; i < list.length; i++) {
+				arr.push({
+					id:list[i].id,
+					titlepic:list[i].titlepic,
+					title:list[i].title,
+					desc:list[i].desc,
+					totalnum:list[i].post_count,
+					todaynum:list[i].todaypost_count,
+				})
+			}
+			this.talk.list = arr;
+		},
 		// 点击切换
 		changeIndex (index) {
 			this.tabIndex = index
@@ -244,28 +247,10 @@ export default {
 			if (this.guanzhu.loadText != '上拉加载更多...') return;
 			// 修改状态
 			this.guanzhu.loadText = '加载中...'
-			// 获取数据
-			setTimeout(() => {
-				// 获取完成
-				let obj = {
-					userPic: '../../static/demo/userpic/12.jpg',
-					userName: '啦啦啦',
-					sex: 1, // 0 男 1 女
-					age: 25,
-					isFollow: false,
-					title: '如果声音有形状，你的会是什么样',
-					titlePic: '../../static/demo/datapic/1.jpg',
-					video: false,
-					share: false,
-					path: '重庆 渝中',
-					shareNum: 50,
-					commenNum: 20,
-					goodNum: 101
-				}
-				this.guanzhu.list.push(obj)
-				this.guanzhu.loadText = '上拉加载更多...'
-			}, 1000)
-			// this.guanzhu.loadText = '我是有底线的'
+			// 修改状态
+			this.guanzhu.loadText="加载中...";
+			this.guanzhu.page++;
+			this.getFollowPostList();
 		}
 	}
 }

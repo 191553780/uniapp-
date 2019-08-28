@@ -9,7 +9,7 @@
 				</uni-collapse-item>
 			</block>
 		</uni-collapse>
-		<button class="user-set-btn" type="primary" @tap="submit">意见反馈</button>
+		<button class="user-set-btn" type="primary" @tap="openFeedback">意见反馈</button>
 	</view>
 </template>
 
@@ -22,15 +22,15 @@ export default {
 			list: [
 				{
 					title: '客服什么时候上线？',
-					content: '1'
+					content: '18:00'
 				},
 				{
 					title: '忘记账号/昵称/密码怎么办？',
-					content: '2'
+					content: '凉拌'
 				},
 				{
 					title: '怎么搜索/查找/关注/取关用户？',
-					content: '3'
+					content: '就这么办'
 				}
 			]
 		}
@@ -40,7 +40,11 @@ export default {
 		uniCollapseItem
 	},
 	methods: {
-		submit () {}
+		openFeedback () {
+			uni.navigateTo({
+				url: '../user-feedback/user-feedback'
+			})
+		}
 	}
 }
 </script>

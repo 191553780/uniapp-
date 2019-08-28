@@ -3,6 +3,8 @@
   "usingComponents": {
     "index-list": "/components/index/index-list",
     "no-thing": "/components/common/no-thing",
-    "load-more": "/components/common/load-more"
+    "load-more": "/components/common/load-more",
+    "last-new": "/components/dynamic/last-new",
+    "user-list": "/components/user-list/user-list"
   }
 }

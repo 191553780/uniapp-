@@ -4,6 +4,8 @@
 			// console.log(this.config.webUrl);
 			this.lib.NetWork.On()
 			console.log('App Launch')
+			// 初始化用户
+			this.User.__init();
 		},
 		onShow: function() {
 			console.log('App Show')
@@ -11,7 +13,7 @@
 		onHide: function() {
 			console.log('App Hide')
 		}
-	}
+	} 
 </script>
 
 <style>

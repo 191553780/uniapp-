@@ -26,6 +26,10 @@
 								<!-- 上拉加载 -->
 								<load-more :loadText="items.loadText"></load-more>
 							</template>
+							<template v-else-if="!items.firstload">
+								<view style="font-size: 50upx;font-weight: bold;color: #CCCCCC;
+								padding-top: 100upx;" class="flex flex-item flex-JustCenter">Loading ...</view>
+							</template>
 							<!-- 无内容默认 -->
 							<template v-else>								
 								<no-thing></no-thing>
@@ -49,132 +53,8 @@ export default {
 		return {
 			swiperHeight: 0,
 			tabIndex: 0,
-			tabBars: [
-				{
-					id: 'new',
-					name: '最新'
-				},
-				{
-					id: 'tuijian',
-					name: '推荐'
-				},
-				{
-					id: 'daka',
-					name: '打卡'
-				},
-				{
-					id: 'feeling',
-					name: '情感'
-				},
-				{
-					id: 'story',
-					name: '故事'
-				},
-				{
-					id: 'like',
-					name: '喜爱'
-				}
-			],
-			newsList: [
-				{
-					loadText: "上拉加载更多...",
-					list: [
-						{
-							titlePic: '../../static/demo/topicpic/12.jpeg',
-							title: '话题名称',
-							desc: '我是话题描述',
-							total: 507,
-							todayNum: 707
-						},
-						{
-							titlePic: '../../static/demo/topicpic/12.jpeg',
-							title: '话题名称',
-							desc: '我是话题描述',
-							total: 507,
-							todayNum: 707
-						},
-						{
-							titlePic: '../../static/demo/topicpic/12.jpeg',
-							title: '话题名称',
-							desc: '我是话题描述',
-							total: 507,
-							todayNum: 707
-						},
-						{
-							titlePic: '../../static/demo/topicpic/12.jpeg',
-							title: '话题名称',
-							desc: '我是话题描述',
-							total: 507,
-							todayNum: 707
-						},
-						{
-							titlePic: '../../static/demo/topicpic/12.jpeg',
-							title: '话题名称',
-							desc: '我是话题描述',
-							total: 507,
-							todayNum: 707
-						},
-						{
-							titlePic: '../../static/demo/topicpic/12.jpeg',
-							title: '话题名称',
-							desc: '我是话题描述',
-							total: 507,
-							todayNum: 707
-						},
-						{
-							titlePic: '../../static/demo/topicpic/12.jpeg',
-							title: '话题名称',
-							desc: '我是话题描述',
-							total: 507,
-							todayNum: 707
-						}
-					]
-				},
-				{
-					loadText: "上拉加载更多...",
-					list: [
-						{
-							titlePic: '../../static/demo/topicpic/12.jpeg',
-							title: '话题名称',
-							desc: '我是话题描述',
-							total: 507,
-							todayNum: 707
-						}
-					]
-				},
-				{
-					loadText: "上拉加载更多...",
-					list: []
-				},
-				{
-					loadText: "上拉加载更多...",
-					list: [
-						{
-							titlePic: '../../static/demo/topicpic/12.jpeg',
-							title: '话题名称',
-							desc: '我是话题描述',
-							total: 507,
-							todayNum: 707
-						}
-					]
-				},
-				{
-					loadText: "上拉加载更多...",
-					list: [
-						{
-							titlePic: '../../static/demo/topicpic/12.jpeg',
-							title: '话题名称',
-							desc: '我是话题描述',
-							total: 507,
-							todayNum: 707
-						}
-					]
-				},
-				{
-					loadText: "上拉加载更多...",
-					list: []
-				}
-			]
+			tabBars: [],
+			newsList: []
 		}
 	},
 	components: {
@@ -196,33 +76,80 @@ export default {
 				})
 			}
 		})
+		this.getNav();
 	},
 	methods: {
+		// 获取文章分类
+		async getNav(){
+			let [err,res] =await this.$http.get('/topicclass');
+			if (!this.$http.errorCheck(err,res)) return;
+			let list = res.data.data.list;
+			let arr = [];
+			let arr2 = [];
+			for (let i = 0; i < list.length; i++) {
+				arr.push({
+					id:list[i].id,
+					name:list[i].classname
+				})
+				arr2.push({
+					loadText:"上拉加载更多",
+					list:[],
+					page:1,
+					firstload:false
+				});
+			}
+			this.tabBars = arr;
+			this.newsList = arr2;
+			this.tabBars.length > 0 && this.getList();
+		},
+		// 获取指定列表
+		async getList(){
+			let url = `/topicclass/${this.tabBars[this.tabIndex].id}/topic/${this.newsList[this.tabIndex].page}`;
+			let [err,res] = await this.$http.get(url);
+			// console.log(url);
+			let error = this.$http.errorCheck(err,res,()=>{
+				this.newsList[this.tabIndex].loadText="上拉加载更多";
+			},()=>{
+				this.newsList[this.tabIndex].loadText="上拉加载更多";
+			});
+			if (!error) return;
+			
+			let arr = [];
+			let list = res.data.data.list;
+			for (let i = 0; i < list.length; i++) {
+				arr.push({
+					id:list[i].id,
+					titlepic:list[i].titlepic,
+					title:list[i].title,
+					desc:list[i].desc,
+					totalnum:list[i].post_count,
+					todaynum:list[i].todaypost_count,
+				});
+			}
+			this.newsList[this.tabIndex].list = this.newsList[this.tabIndex].page > 1 ? this.newsList[this.tabIndex].list.concat(arr) : arr;
+			this.newsList[this.tabIndex].firstload = true;
+			if (list.length < 10) {
+				this.newsList[this.tabIndex].loadText="我是有底线的...";
+			}else{
+				this.newsList[this.tabIndex].loadText="上拉加载更多";
+			}
+			return;
+		},
 		fixIndex (index) {
 			this.tabIndex = index
 		},
 		tabChange (e) {
 			let sIndex = e.detail.current
 			this.tabIndex = sIndex
+			this.getList();
 		},
 		loadMore (index) {
 			if (this.newsList[index].loadText != '上拉加载更多...') return;
 			// 修改状态
 			this.newsList[index].loadText = '加载中...'
 			// 获取数据
-			setTimeout(() => {
-				// 获取完成
-				let obj = {
-					titlePic: '../../static/demo/topicpic/11.jpeg',
-					title: '话题名称',
-					desc: '我是话题描述',
-					total: 507,
-					todayNum: 707
-				}
-				this.newsList[index].list.push(obj)
-				this.newsList[index].loadText = '上拉加载更多...'
-			}, 1000)
-			// this.newsList[index].loadText = '我是有底线的'
+			this.newsList[this.tabIndex].page++;
+			this.getList();
 		}
 	}
 }

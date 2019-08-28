@@ -3,7 +3,7 @@
 		<block v-for="(item,index) in list" :key="index">
 			<home-list-item :item="item" :index="index"></home-list-item>
 		</block>
-		<button class="user-set-btn" type="primary">退出登录</button>
+		<button class="user-set-btn" type="primary" @tap="User.logout()">退出登录</button>
 	</view>
 </template>
 
@@ -16,23 +16,25 @@ export default {
 				{
 					name: '账号与安全',
 					clickType: 'navigateTo',
-					url: '../../pages/user-set-repassword/user-set-repassword'
+					url: '../../pages/user-safe/user-safe',
+					auth:true 
 				},
-				{
-					name: '绑定邮箱',
-					clickType: 'navigateTo',
-					url: '../../pages/user-set-email/user-set-email'
-				},
+				// {
+				// 	name: '绑定邮箱',
+				// 	clickType: 'navigateTo',
+				// 	url: '../../pages/user-set-email/user-set-email'
+				// },
 				{
 					name: '资料编辑',
 					clickType: 'navigateTo',
-					url: '../../pages/user-set-info/user-set-info'
+					url: '../../pages/user-set-info/user-set-info',
+					auth:true 
 				},
-				{
-					name: '小纸条',
-					clickType: 'navigateTo',
-					url: ''
-				},
+				// {
+				// 	name: '小纸条',
+				// 	clickType: 'navigateTo',
+				// 	url: ''
+				// },
 				{
 					name: '清除缓存',
 					clickType: 'clear',
@@ -41,12 +43,14 @@ export default {
 				{
 					name: '意见反馈',
 					clickType: 'navigateTo',
-					url: '../../pages/user-set-help/user-set-help'
+					url: '../../pages/user-set-help/user-set-help',
+					auth:true 
 				},
 				{
 					name: '关于',
 					clickType: 'navigateTo',
-					url: '../../pages/user-set-about/user-set-about'
+					url: '../../pages/user-set-about/user-set-about',
+					auth:true 
 				}
 			]
 		}

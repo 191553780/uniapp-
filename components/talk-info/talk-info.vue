@@ -2,17 +2,17 @@
 	<view>
 		<!-- 模糊背景 -->
 		<view class="talk-bg">
-			<image :src="item.titlePic" mode="aspectFill" lazy-load></image>
+			<image :src="item.titlepic" mode="aspectFill" lazy-load></image>
 		</view>
 		<!-- 话题信息 -->
 		<view class="talk-info">
 			<view class="talk-info-top flex flex-item">
-				<image :src="item.titlePic" mode="" lazy-load></image>
+				<image :src="item.titlepic" mode="" lazy-load></image>
 				<view>#{{item.title}}#</view>
 			</view>
 			<view class="talk-info-mid flex flex-item">
-				<view>动态 {{item.totalNum}}</view>
-				<view>今日 {{item.todayNum}}</view>
+				<view>动态 {{item.totalnum}}</view>
+				<view>今日 {{item.todaynum}}</view>
 			</view>
 			<view class="talk-info-bot">{{item.desc}}</view>
 		</view>
@@ -26,6 +26,9 @@ export default {
 	},
 	data () {
 		return {}
+	},
+	mounted () {
+		// console.log(this.item)
 	},
 	methods: {}
 }

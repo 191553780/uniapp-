@@ -1,10 +1,10 @@
 <template>
 	<view>
-		<template v-if="!isLogin">
+		<template v-if="!loginStatus">
 			<!-- 未登录 -->
 			<view class="flex flex-item flex-JustCenter">登录，体验更多功能</view>
 			<!-- 第三方 -->
-			<other-login></other-login>
+			<other-login :noback="true" @logining="isLogin()"></other-login>
 			<!-- 账号密码登录 -->
 			<view class="flex flex-item flex-JustCenter" @tap="openLogin">
 				账号密码登录
@@ -39,12 +39,12 @@ import homeData from '@/components/home/home-data.vue'
 export default {
 	data() {
 		return {
-			isLogin: false,
+			loginStatus: false,
 			homeInfo: {
-				userPic: '../../static/demo/userpic/20.jpg',
-				userName: '昵称',
-				total: 0,
-				todayNum: 0
+				userpic:"",
+				username:"",
+				totalnum:0,
+				todaynum:0,
 			},
 			homeData: [
 				{name: '糗事', num: 0},
@@ -80,6 +80,9 @@ export default {
 		otherLogin,
 		homeData
 	},
+	onShow() {
+		this.isLogin();
+	},
 	onNavigationBarButtonTap(e) {
 		if (e.index == 0) {
 			this.User.navigate({
@@ -88,6 +91,34 @@ export default {
 		}
 	},
 	methods: {
+		// 判断用户是否登录
+		isLogin(){
+			if (!this.User.token){
+				this.loginStatus = false;
+				this.homeInfo={
+					userpic:"",
+					username:"",
+					totalnum:0,
+					todaynum:0,
+				};
+				this.homeData[0].num = 0;
+				this.homeData[1].num = 0;
+				this.homeData[2].num = 0;
+				this.homeData[3].num = 0;
+				return;
+			}
+			// 用户已登录
+			this.homeInfo.id = this.User.userinfo.id;
+			this.homeInfo.userpic = this.User.userinfo.userpic;
+			this.homeInfo.username = this.User.userinfo.username;
+			this.homeInfo.totalnum = this.User.counts.post_count || 0;
+			this.homeInfo.todaynum = this.User.counts.today_posts_count || 0;
+			this.homeData[0].num = this.User.counts.post_count || 0;
+			this.homeData[1].num = this.User.counts.post_count || 0;
+			this.homeData[2].num = this.User.counts.comments_count || 0;
+			this.homeData[3].num = this.User.counts.withfen_count || 0;
+			this.loginStatus = true;
+		},
 		openLogin () {
 			uni.navigateTo({
 				url: '../login/login'

@@ -2,10 +2,13 @@
 	<view class="index-list animated fadeIn fast">
 		<view class="index-list-one flex flex-item flex-JustBetween">
 			<view class="flex flex-item">
-				<image :src="item.userpic" mode="widthFix" lazy-load></image>
+				<image :src="item.userpic" lazy-load></image>
 				{{item.username}}
 			</view>
-			<view class="flex flex-item" v-show="!item.isguanzhu" @tap="follow(item.isguanzhu)">
+			<view
+				class="flex flex-item"
+				v-show="!item.isguanzhu"
+				@tap="follow">
 				<view class="icon iconfont icon-zengjia1"></view>
 				关注
 			</view>
@@ -13,7 +16,9 @@
 		<view class="index-list-two" @tap="openDetail">{{item.title}}</view>
 		<view class="index-list-three flex flex-item flex-JustCenter" @tap="openDetail">
 			<!-- 图片 -->
-			<image :src="item.titlepic" mode="widthFix" lazy-load></image>
+			<template v-if="item.titlepic">
+				<image :src="item.titlepic" mode="widthFix" lazy-load></image>
+			</template>
 			<!-- 视频 -->
 			<template v-if="item.type === 'video'">
 				<view class="index-list-play icon iconfont icon-bofang"></view>
@@ -67,23 +72,60 @@
 		},
 		methods: {
 			// 关注
-			follow (guanzhu) {
-				this.$emit('follow',{
-					guanzhu,
-					index: this.index,
-					index1: this.index1
-				})
-				uni.showToast({
-					title: '关注成功'
-				})
+			async follow () {
+				try{
+					let [err,res] = await this.$http.post('/follow',{
+						follow_id:this.item.userid
+					},{
+						token:true,
+						checkToken:true,
+						checkAuth:true
+					});
+					// 错误处理
+					if (!this.$http.errorCheck(err,res)){
+						return;
+					}
+					// 通知首页修改数据
+					uni.showToast({ title: '关注成功' });
+					let resdata = {
+					 	type:"guanzhu",
+					 	userid:this.item.userid,
+					 	data:true
+					};
+					// 通知父组件
+					this.$emit('changeEvent',resdata);
+					// 通知首页
+					uni.$emit('updateData',resdata);
+				}catch(e){ return; }
 			},
 			// 赞 踩
-			operate (type) {
-				this.$emit('operate',{
-					type,
-					index: this.index,
-					index1: this.index1
-				})
+			async operate (type) {
+				try{
+					let index = (type === 'smile') ? 1 : 2; // 操作后的状态
+					if(this.item.infonum.index === index) return; // 状态相同不修改
+					let [err,res] = await this.$http.post('/support',{
+						post_id:this.item.id,
+						type:index-1
+					},{
+						token:true,
+						checkToken:true,
+						checkAuth:true
+					});
+					// 错误处理
+					if (!this.$http.errorCheck(err,res)) return;
+					uni.showToast({
+						title: index == 1 ? "顶成功" : "踩成功"
+					});
+					let resdata = {
+						type:"support",
+						post_id:this.item.id,
+						do:type
+					};
+					// 通知父组件
+					this.$emit('changeevent',resdata);
+					// 通知全局
+					uni.$emit("updateData",resdata);
+				}catch(e){ return; }
 			},
 			// 进入详情页
 			openDetail () {

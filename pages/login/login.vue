@@ -76,7 +76,7 @@
 		<!-- 第三方登录 -->
 		<view class="other-login login-padding">			
 			<view class="other-login-title flex flex-JustCenter flex-item login-font-color">第三方登录</view>
-			<other-login></other-login>
+			<other-login :noback="false"></other-login>
 		</view>
 		
 		<!-- 协议 -->
@@ -109,6 +109,30 @@ export default {
 		otherLogin
 	},
 	methods: {
+		// 获取验证码
+		async getCode(){
+			if(this.codetime > 0) return;
+			// 验证手机号合法性
+			if(!this.isPhone()){
+				return uni.showToast({ title: '请输入正确的手机号码', icon:"none" });
+			}
+			// 请求服务器，发送验证码
+			let [err,res] = await this.$http.post('/user/sendcode',{
+				phone:this.phone
+			});
+			// 请求失败处理
+			this.$http.errorCheck(err,res);
+			if (res.data.errorCode === 30001) return;
+			// 发送成功，开启倒计时
+			this.codeTime=60;
+			let timer=setInterval(()=>{
+				this.codeTime--;
+				if(this.codeTime < 1){
+					clearInterval(timer);
+					this.codeTime=0;
+				}
+			},1000);
+		},
 		// 初始化表单
 		initInput () {
 			this.username = '',
@@ -119,24 +143,31 @@ export default {
 		// 返回上一步
 		back () {
 			uni.navigateBack({ delta:1 })
-			console.log('返回');
 		},
 		// 登录
 		submit () {
 			// 账号密码登录
 			if (!this.status) {
-				return
+				return this.User.login({
+						url:"/user/login",
+						data:{
+							username:this.username,
+							password:this.pass
+						}
+					})
 			} 
 			// 验证码登录
-			if (!this.isPhone()) {
-				uni.showToast({
-					title: '请输入正确的手机号码',
-					icon: 'none'
-				})
-				return;
+			// 验证手机号合法性
+			if(!this.isPhone()){
+				return uni.showToast({ title: '请输入正确的手机号码', icon:"none" });
 			}
-			
-			console.log('登录');
+			return this.User.login({
+				url:"/user/phonelogin",
+				data:{
+					phone:this.phone,
+					code:this.code
+				}
+			});
 		},
 		// 切换登录状态
 		changeSatus () {
@@ -156,28 +187,6 @@ export default {
 			let pattern = /^1[34578]\d{9}$/;
 			return pattern.test(this.phone)
 		},
-		getCode () {
-			if (this.codeTime > 0) { return; }
-			// 验证手机号合法性
-			
-			if (!this.isPhone()) {
-				uni.showToast({
-					title: '请输入正确的手机号码',
-					icon: 'none'
-				})
-				return;
-			}
-			
-			// 请求服务器
-			this.codeTime = 10
-			let timer = setInterval(() => {
-				this.codeTime --;
-				if (this.codeTime < 1) {
-					clearInterval(timer)
-					this.codeTime = 0
-				}
-			},1000)
-		}
 	},
 	watch: {
 		username (val) { this.changeBtn() },

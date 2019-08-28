@@ -6,6 +6,7 @@
 			value="" 
 			v-model="oldPass"
 			password
+			v-if="hasPassword"
 		/>
 		<input 
 			type="text" 
@@ -40,6 +41,7 @@
 	export default {
 		data() {
 			return {
+				hasPassword:false,
 				oldPass: '',
 				newPass: '',
 				reNewPass: '',
@@ -47,58 +49,80 @@
 				loading: false
 			}
 		},
+		onLoad(e) {
+			this.hasPassword = !!(e.password && e.password !== "false");
+		},
+		watch:{
+			oldpassword(val){
+				this.change();
+			},
+			newpassword(val){
+				this.change();
+			},
+			renewpassword(val){
+				this.change();
+			}
+		},
 		methods: {
 			// 监听输入框
 			change () {
-				if (this.oldPass && this.newPass && this.reNewPass) {
-					this.disabled = false;
+				if(this.newPass && this.reNewPass){
+					return this.disabled=false;
 				}
+				if (this.hasPassword && !this.oldPass) {
+					return this.disabled = true;
+				}
+				this.disabled=true;
 			},
 			// 验证
 			check () {
-				if (!this.oldPass && this.oldPass == '') {
-					uni.showToast({
-						title: '请填写旧密码',
-						icon: 'none'
-					})
+				if (this.hasPassword && (!this.oldPass && this.oldPass == '')) {
+					uni.showToast({ title: '旧密码不能为空', icon:"none" });
 					return false
 				}
 				if (!this.newPass && this.newPass == '') {
-					uni.showToast({
-						title: '请填写新密码',
-						icon: 'none'
-					})
+					uni.showToast({ title: '新密码不能为空', icon:"none" });
 					return false
 				}
 				if (!this.reNewPass && this.reNewPass == '') {
-					uni.showToast({
-						title: '请填写确认密码',
-						icon: 'none'
-					})
+					uni.showToast({ title: '确认密码不能为空', icon:"none" });
 					return false
 				}
 				if (this.newPass !== this.reNewPass) {
-					uni.showToast({
-						title: '密码不一致',
-						icon: 'none'
-					})
+					uni.showToast({ title: '确认密码和新密码不一致', icon:"none" });
 					return false
 				}
 				return true
 			},
 			// 提交
-			submit () {
-				this.loading = true
-				this.disabled = true
-				if (!this.check()) {
-					this.loading = false
+			async submit () {
+				if(!this.check()) return;
+				this.loading = this.disabled = true
+				
+				let [err,res] = await this.$http.post('/repassword',{
+					oldpassword:this.oldPass || 0,
+					newpassword:this.newPass,
+					renewpassword:this.reNewPass,
+				},{
+					token:true,
+					checkToken:true
+				})
+				
+				if(!this.$http.errorCheck(err,res)){
+					this.loading = this.disabled = false;
 					return;
 				}
-				uni.showToast({
-					title:'验证通过'
-				})
-				this.loading = false
-				this.disabled = false
+				
+				// 修改状态，缓存
+				this.User.userinfo.password = true;
+				uni.setStorageSync('userinfo',this.User.userinfo);
+				this.loading = this.disabled = false;
+				return uni.showToast({
+					title: '修改密码成功！',
+					success: () => {
+						uni.navigateBack({ delta: 1 });
+					}
+				});
 			}
 		},
 		watch: {

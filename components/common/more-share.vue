@@ -22,95 +22,111 @@
 <script>
 export default {
 	props:{
-		shareShow: Boolean
+		shareShow: Boolean,
+		sharedata: Object
 	},
 	data () {
 		return {
-				title: 'share',
-				shareText: 'uni-app可以同时发布成原生App、小程序、H5，邀请你一起体验！',
-				href:"https://uniapp.dcloud.io",
-				image: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/app/share-logo@3.png',
+				title: '',
+				shareText: '',
+				href:"",
+				image: '',
 				shareType:1, // 1文字 2图片 0图文 5小程序
 				providerList: []
 		}
 	},
+	watch: {
+		sharedata(newValue, oldValue) {
+			console.log(this.sharedata);
+			this.title = newValue.title;
+			this.shareText = newValue.content;
+			this.href = newValue.url;
+			this.image = newValue.titlepic;
+			this.shareType = newValue.shareType;
+		}
+	},
 	created () {
-		uni.getProvider({
-			service: 'share',
-			success: (e) => {
-				console.log('success', e);
-				let data = []
-				for (let i = 0; i < e.provider.length; i++) {
-					switch (e.provider[i]) {
-						case 'weixin':
-							data.push({
-								name: '微信好友',
-								id: 'weixin',
-								icon: {
-									type: 'weixin',
-									class: 'wx'
-								},
-								sort:0
-							})
-							data.push({
-								name: '微信朋友圈',
-								id: 'weixin',
-								icon: {
-									type: 'weixin',
-									class: 'friend'
-								},
-								type:'WXSenceTimeline',
-								sort:1
-							})
-							break;
-						case 'sinaweibo':
-							data.push({
-								name: '新浪微博',
-								id: 'sinaweibo',
-								icon: {
-									type: 'xinlangweibo',
-									class: 'xl'
-								},
-								sort:2
-							})
-							break;
-						case 'qq':
-							data.push({
-								name: 'QQ',
-								id: 'qq',
-								icon: {
-									type: 'qq',
-									class: 'qq'
-								},
-								sort:3
-							})
-							break;
-						default:
-							break;
-					}
-				}
-				this.providerList = data.sort((x,y) => {
-					return x.sort - y.sort
-				});
-			},
-			fail: (e) => {
-				console.log('获取分享通道失败', e);
-				uni.showModal({
-					content:'获取分享通道失败',
-					showCancel:false
-				})
-			}
-		});
+		this.getProvider();
+	},
+	mounted () {
+		console.log(this.sharedata);
 	},
 	methods: {
+		getProvider () {
+			uni.getProvider({
+				service: 'share',
+				success: (e) => {
+					// console.log('success', e);
+					let data = []
+					for (let i = 0; i < e.provider.length; i++) {
+						switch (e.provider[i]) {
+							case 'weixin':
+								data.push({
+									name: '微信好友',
+									id: 'weixin',
+									icon: {
+										type: 'weixin',
+										class: 'wx'
+									},
+									sort:0
+								})
+								data.push({
+									name: '微信朋友圈',
+									id: 'weixin',
+									icon: {
+										type: 'weixin',
+										class: 'friend'
+									},
+									type:'WXSenceTimeline',
+									sort:1
+								})
+								break;
+							case 'sinaweibo':
+								data.push({
+									name: '新浪微博',
+									id: 'sinaweibo',
+									icon: {
+										type: 'xinlangweibo',
+										class: 'xl'
+									},
+									sort:2
+								})
+								break;
+							case 'qq':
+								data.push({
+									name: 'QQ',
+									id: 'qq',
+									icon: {
+										type: 'qq',
+										class: 'qq'
+									},
+									sort:3
+								})
+								break;
+							default:
+								break;
+						}
+					}
+					this.providerList = data.sort((x,y) => {
+						return x.sort - y.sort
+					});
+				},
+				fail: (e) => {
+					console.log('获取分享通道失败', e);
+					uni.showModal({
+						content:'获取分享通道失败',
+						showCancel:false
+					})
+				}
+			});
+		},
 		toggolShow () {
 			this.$emit('toggolShow')
 			// console.log(this.providerList);
-			
 		},
 		async share(e) {
 			console.log('分享通道:'+ e.id +'； 分享类型:' + this.shareType);
-			
+			console.log(this.shareText,this.shareType);
 			if(!this.shareText && (this.shareType === 1 || this.shareType === 0)){
 				uni.showModal({
 					content:'分享内容不能为空',
@@ -154,8 +170,8 @@ export default {
 				case 0:
 					shareOPtions.summary = this.shareText;
 					shareOPtions.imageUrl = this.image;
-					shareOPtions.title = '欢迎体验uniapp';
-					shareOPtions.href = 'https://uniapp.dcloud.io';
+					shareOPtions.title = this.title;
+					shareOPtions.href = this.href;
 					break;
 				case 1:
 					shareOPtions.summary = this.shareText;
@@ -165,7 +181,7 @@ export default {
 					break;
 				case 5:
 					shareOPtions.imageUrl = this.image ? this.image : 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/app/share-logo@3.png'
-					shareOPtions.title = '欢迎体验uniapp';
+					shareOPtions.title = this.title;
 					shareOPtions.miniProgram = {
 						id:'gh_33446d7f7a26',
 						path:'/pages/tabBar/component/component',
@@ -180,9 +196,14 @@ export default {
 			if(shareOPtions.type === 0 && plus.os.name === 'iOS'){//如果是图文分享，且是ios平台，则压缩图片 
 				shareOPtions.imageUrl = await this.compress();
 			}
-			if(shareOPtions.type === 1 && shareOPtions.provider === 'qq'){//如果是分享文字到qq，则必须加上href和title
-				shareOPtions.href = 'https://uniapp.dcloud.io';
-				shareOPtions.title = '欢迎体验uniapp';
+			if (shareOPtions.provider === 'sinaweibo') {
+				shareOPtions.type = 1;
+				shareOPtions.imageUrl = '';
+			}
+			if (shareOPtions.provider === 'qq') {
+				shareOPtions.type = 1;
+				shareOPtions.href = this.href;
+				shareOPtions.title = this.title;
 			}
 			uni.share(shareOPtions);
 		},

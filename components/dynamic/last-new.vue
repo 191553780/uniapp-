@@ -1,10 +1,10 @@
 <template>
 	<view class="list-item flex flex-item animated fast fadeInLeft" @tap="openDetail">
-		<image :src="item.titlePic" mode="" lazy-load></image>
+		<image :src="item.titlepic" mode="" lazy-load></image>
 		<view class="list-info">
 			<view class="info-title">#{{item.title}}#</view>
 			<view>{{item.desc}}</view>
-			<view>动态 {{item.total}} 今日 {{item.todayNum}}</view>
+			<view>动态 {{item.totalnum}} 今日 {{item.todaynum}}</view>
 		</view>
 	</view>
 </template>
@@ -21,7 +21,7 @@ export default {
 	methods: {
 		openDetail () {
 			uni.navigateTo({
-				url:'../../pages/talk-detail/talk-detail'
+				url:'../../pages/talk-detail/talk-detail?detail='+JSON.stringify(this.item)
 			})
 		}
 	}

@@ -1,9 +1,9 @@
 <template>
 	<view class="home-info flex flex-item" @tap="toUserSpace">
-		<image :src="homeInfo.userPic" mode="" lazy-load></image>
+		<image :src="homeInfo.userpic" lazy-load></image>
 		<view class="info-desc flex-1">
-			<view class="info-top">{{homeInfo.userName}}</view>
-			<view class="info-bot">总访客 {{homeInfo.total}}  今日 {{homeInfo.todayNum}}</view>
+			<view class="info-top">{{homeInfo.username}}</view>
+			<view class="info-bot">总文章 {{homeInfo.totalnum}}  今日 {{homeInfo.todaynum}}</view>
 		</view>
 		<view class="icon iconfont icon-jinru"></view>
 	</view>
@@ -17,7 +17,7 @@ export default {
 	methods: {
 		 toUserSpace () {
 			uni.navigateTo({
-				url: '../../pages/user-space/user-space'
+				url: '../../pages/user-space/user-space?userid='+this.homeInfo.id
 			})
 		}
 	},

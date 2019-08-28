@@ -1,13 +1,13 @@
 <template>
 	<view class="uni-comment-list animated fast fadeIn" 
-		:class="{'u-comment-list-child': item.level > 0}"
+		:class="{'u-comment-list-child': item.fid > 0}"
 	>
 		<view class="uni-comment-face">
-			<image :src="item.userPic" mode="widthFix"></image>
+			<image :src="item.userpic" mode="widthFix"></image>
 		</view>
 		<view class="uni-comment-body">
 			<view class="uni-comment-top">
-				<text>{{item.userName}}</text>
+				<text>{{item.username}}</text>
 			</view>
 			<view class="uni-comment-content">{{item.data}}</view>
 			<view class="uni-comment-date">

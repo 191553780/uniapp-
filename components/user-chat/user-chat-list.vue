@@ -5,7 +5,7 @@
 			class="user-chat-list flex"
 			:class="{'user-chat-me':item.isMe}"
 		>
-			<image v-if="!item.isMe" :src="item.userpic" mode="" lazy-load></image>
+			<image v-if="!item.isMe" :src="item.userpic" lazy-load></image>
 			<view class="user-chat-list-body">
 				<!-- 文字 -->
 				<text v-if="item.type == 'text'">{{item.data}}</text>

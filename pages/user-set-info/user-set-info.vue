@@ -17,7 +17,7 @@
 		<view class="user-set-info-list flex flex-item flex-JustBetween">
 			<view class="user-title">性别</view>
 			<view class="user-edit flex flex-item flex-JustBetween" @tap="change('sex')">
-				<view>{{sex}}</view>
+				<view>{{sexArr[sex]}}</view>
 				<view class="icon iconfont icon-bianji"></view>
 			</view>
 		</view>
@@ -33,7 +33,7 @@
 		<view class="user-set-info-list flex flex-item flex-JustBetween">
 			<view class="user-title">情感</view>
 			<view class="user-edit flex flex-item flex-JustBetween" @tap="change('feel')">
-				<view>{{feel}}</view>
+				<view>{{qgArr[feel]}}</view>
 				<view class="icon iconfont icon-bianji"></view>
 			</view>
 		</view>
@@ -66,6 +66,7 @@
 <script>
 import mpvueCityPicker from '@/components/mpvue-citypicker/mpvueCityPicker.vue'
 import cityData from '@/common/city.data.js'
+import Time from '../../common/time.js';
 let info = {
 				sex: ['不限','男','女'],
 				feel: ['秘密','未婚','已婚'],
@@ -74,14 +75,16 @@ let info = {
 export default {
 	data() {
 		return {
-			username: '啦啦啦',
-			userpic: '../../static/demo/userpic/20.jpg',
-			sex: '不限',
-			feel: '未婚',
-			job: 'IT',
-			birthday: '1999-09-09',
+			sexArr:info.sex,
+			qgArr:info.feel,
+			username: '',
+			userpic: '',
+			sex: 0,
+			feel: 0,
+			job: '',
+			birthday: '',
 			cityPickerValueDefault: [0, 0, 1],
-			pickerText: '中国 重庆'
+			pickerText: ''
 		}
 	},
 	computed: {
@@ -95,16 +98,59 @@ export default {
 	components: {
 		mpvueCityPicker
 	},
+	onLoad() {
+		this.userpic = this.User.userinfo.userpic;
+		this.username = this.User.userinfo.username;
+		this.sex = this.User.userinfo.userinfo.sex || 0;
+		this.qg = this.User.userinfo.userinfo.qg || 0;
+		this.job = this.User.userinfo.userinfo.job || "请填写";
+		this.birthday = this.User.userinfo.userinfo.birthday || "请填写";
+		this.pickerText = this.User.userinfo.userinfo.path || "请填写";
+	},
+	onBackPress() {
+	  if (this.$refs.mpvueCityPicker.showPicker) {
+	  	this.$refs.mpvueCityPicker.pickerCancel();
+	    return true;
+	  }
+	},
+	onUnload() {
+		if (this.$refs.mpvueCityPicker.showPicker) {
+			this.$refs.mpvueCityPicker.pickerCancel()
+		}
+	},
 	methods: {
 		// 修改头像
-		changeUserPic () {
-			uni.chooseImage({
-				count: 1,
-				sizeType: ['compressed'],
-				success: (res) => {
-					this.userpic = res.tempFilePaths
-				}
-			})
+		async changeUserPic () {
+			let [err,res] =await uni.chooseImage({
+					count:1,
+					sizeType:['compressed']
+				});
+				
+			if (!res) return;
+			// 上传
+			uni.showLoading({ title: '上传中...', mask: false });
+			let [err2,res2] = await this.$http.upload('/edituserpic',{
+				name: 'userpic',
+				filePath: res.tempFilePaths[0],
+				token:true,
+				checkToken:true
+			});
+			// 请求失败
+			let data = JSON.parse(res2.data);
+			// 上传失败
+			if (err2 || data.errorCode) {
+				uni.showToast({ title: data.msg ? data.msg : '上传失败', icon:"none" });
+				uni.hideLoading();
+				return false;
+			}
+			// 成功
+			uni.hideLoading();
+			uni.showToast({ title: '修改头像成功!' });
+			this.userpic = data.data;
+			console.log(res2);
+			// 修改状态，存储
+			this.User.userinfo.userpic = this.userpic;
+			uni.setStorageSync("userinfo",this.User.userinfo);
 		},
 		change(val) {
 			let arr = []
@@ -124,13 +170,13 @@ export default {
 				success: (res) => {
 					switch (val){
 						case 'sex':
-							this.sex = arr[res.tapIndex]
+							this.sex = res.tapIndex
 						break;
 						case 'feel':
-							this.feel = arr[res.tapIndex]
+							this.feel = res.tapIndex
 						break;
 						case 'job':
-							this.job = arr[res.tapIndex]
+							this.job = res.tapIndex
 						break;
 					}
 				}
@@ -164,20 +210,29 @@ export default {
 			return `${year}-${month}-${day}`;
 		},
 		// 提交
-		submit () {
-			
-		}
-	},
-	onBackPress() {
-	  if (this.$refs.mpvueCityPicker.showPicker) {
-	  	this.$refs.mpvueCityPicker.pickerCancel();
-	    return true;
-	  }
-	},
-	onUnload() {
-		if (this.$refs.mpvueCityPicker.showPicker) {
-			this.$refs.mpvueCityPicker.pickerCancel()
-		}
+		async submit(){
+			let data = {
+				name:this.username,
+				sex:this.sex,
+				qg:this.feel,
+				job:this.job,
+				birthday:this.birthday,
+				path:this.pickerText,
+				age:Time.gettime.getAgeByBirthday(this.birthday),
+			};
+			let [err,res] = await this.$http.post('/edituserinfo',data,{
+				token:true,
+				checkToken:true
+			});
+			// 请求失败处理
+			if (!this.$http.errorCheck(err,res)) return;
+			// 成功
+			uni.showToast({ title: '修改成功！' });
+			// 修改状态，缓存
+			this.User.userinfo.username = this.username;
+			this.User.userinfo.userinfo = data;
+			uni.setStorageSync('userinfo',this.User.userinfo);
+		} 
 	}
 }
 </script>
